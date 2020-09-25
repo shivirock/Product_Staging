@@ -1,0 +1,7 @@
+package com.karmaya.fulvila.repository;
+
+import com.karmaya.fulvila.model.Admin;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface AdminRepository extends MongoRepository<Admin, Long> {
+}

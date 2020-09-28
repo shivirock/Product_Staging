@@ -57,6 +57,7 @@ public class ResponseModel {
 				", responseCode=" + responseCode +
 				", responseMessage='" + responseMessage + '\'' +
 				", timeStamp='" + timeStamp + '\'' +
+				", path='" + path + '\'' +
 				'}';
 	}
 

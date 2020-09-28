@@ -8,6 +8,9 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+import java.util.List;
+
 @Document(collection = "admin")
 public class Admin {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Admin.class);
@@ -17,26 +20,37 @@ public class Admin {
 	@Id
 	private long id;
 	@NonNull
-	private String adminName;
+	private String name;
 	@NonNull
 	@Indexed(name = "admin_email",unique = true)
-	private String adminEmail;
+	private String email;
 	@NonNull
-	private String adminPassword;
-	private String adminContact;
+	private String password;
+	private String primaryContact;
+	private List<String> otherContact;
+	private String aboutAdmin;
 	private String designation;
 	private String linkdinProfileURL;
-	private String registrationType;
+	public static enum RegistrationType{
+		surfer,
+		builder,
+		vendor,
+		architect
+	}
+	private List<RegistrationType> registrationType;
+	public static enum  AuthProvider implements Serializable {
+		local,
+		facebook,
+		google
+	}
+	private AuthProvider authProvider;
 	private String timeStamp;
 	private String lastUpdateTime;
-
-	public static Logger getLOGGER() {
-		return LOGGER;
+	public static enum ActivationStatus{
+		Active,
+		Inactive
 	}
-
-	public static String getSequenceName() {
-		return SEQUENCE_NAME;
-	}
+	private ActivationStatus activationStatus;
 
 	public long getId() {
 		return id;
@@ -47,38 +61,54 @@ public class Admin {
 	}
 
 	@NonNull
-	public String getAdminName() {
-		return adminName;
+	public String getName() {
+		return name;
 	}
 
-	public void setAdminName(@NonNull String adminName) {
-		this.adminName = adminName;
-	}
-
-	@NonNull
-	public String getAdminEmail() {
-		return adminEmail;
-	}
-
-	public void setAdminEmail(@NonNull String adminEmail) {
-		this.adminEmail = adminEmail;
+	public void setName(@NonNull String name) {
+		this.name = name;
 	}
 
 	@NonNull
-	public String getAdminPassword() {
-		return adminPassword;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setAdminPassword(@NonNull String adminPassword) {
-		this.adminPassword = adminPassword;
+	public void setEmail(@NonNull String email) {
+		this.email = email;
 	}
 
-	public String getAdminContact() {
-		return adminContact;
+	@NonNull
+	public String getPassword() {
+		return password;
 	}
 
-	public void setAdminContact(String adminContact) {
-		this.adminContact = adminContact;
+	public void setPassword(@NonNull String password) {
+		this.password = password;
+	}
+
+	public String getPrimaryContact() {
+		return primaryContact;
+	}
+
+	public void setPrimaryContact(String primaryContact) {
+		this.primaryContact = primaryContact;
+	}
+
+	public List<String> getOtherContact() {
+		return otherContact;
+	}
+
+	public void setOtherContact(List<String> otherContact) {
+		this.otherContact = otherContact;
+	}
+
+	public String getAboutAdmin() {
+		return aboutAdmin;
+	}
+
+	public void setAboutAdmin(String aboutAdmin) {
+		this.aboutAdmin = aboutAdmin;
 	}
 
 	public String getDesignation() {
@@ -97,11 +127,11 @@ public class Admin {
 		this.linkdinProfileURL = linkdinProfileURL;
 	}
 
-	public String getRegistrationType() {
+	public List<RegistrationType> getRegistrationType() {
 		return registrationType;
 	}
 
-	public void setRegistrationType(String registrationType) {
+	public void setRegistrationType(List<RegistrationType> registrationType) {
 		this.registrationType = registrationType;
 	}
 
@@ -121,19 +151,39 @@ public class Admin {
 		this.lastUpdateTime = lastUpdateTime;
 	}
 
+	public AuthProvider getAuthProvider() {
+		return authProvider;
+	}
+
+	public void setAuthProvider(AuthProvider authProvider) {
+		this.authProvider = authProvider;
+	}
+
+	public ActivationStatus getActivationStatus() {
+		return activationStatus;
+	}
+
+	public void setActivationStatus(ActivationStatus activationStatus) {
+		this.activationStatus = activationStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Admin{" +
 				"id=" + id +
-				", adminName='" + adminName + '\'' +
-				", adminEmail='" + adminEmail + '\'' +
-				", adminPassword='" + adminPassword + '\'' +
-				", adminContact='" + adminContact + '\'' +
+				", name='" + name + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", primaryContact='" + primaryContact + '\'' +
+				", otherContact=" + otherContact +
+				", aboutAdmin='" + aboutAdmin + '\'' +
 				", designation='" + designation + '\'' +
 				", linkdinProfileURL='" + linkdinProfileURL + '\'' +
-				", registrationType='" + registrationType + '\'' +
+				", registrationType=" + registrationType +
+				", authProvider=" + authProvider +
 				", timeStamp='" + timeStamp + '\'' +
 				", lastUpdateTime='" + lastUpdateTime + '\'' +
+				", activationStatus=" + activationStatus +
 				'}';
 	}
 }
